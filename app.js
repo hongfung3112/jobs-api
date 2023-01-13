@@ -6,7 +6,6 @@ const path = require('path');
 const helmet = require('helmet');
 const cors = require('cors');
 const xss = require('xss-clean');
-const rateLimit = require('express-rate-limit')
 
 const express = require('express');
 const app = express();
@@ -25,10 +24,6 @@ const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
 app.set('trust proxy', 1);
-app.use(rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per wimdowMs
-}));
 app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(express.json());
 app.use(helmet());
@@ -46,7 +41,7 @@ app.get('*', (req, res) => {
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 const start = async () => {
   try {
